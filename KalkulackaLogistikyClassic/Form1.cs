@@ -145,7 +145,6 @@ namespace KalkulackaLogistikyClassic
             }
             PocetniOperace.PrubeznaDobaOperace prubeznaDoba = new(Tpz1, Tksum, Tkmax, Tmsum, 
                 (int)VyrobniDavka, Varianta, (int)DavkaQD, PocetPracovist, TmWithValue);
-            prubeznaDoba.ZvolenaVarianta(Varianta);
             PrubDobaVypisTxt.Text = $"{prubeznaDoba}";
         }
         // Pøidá øádek do datatable, pøesnìji pracovištì

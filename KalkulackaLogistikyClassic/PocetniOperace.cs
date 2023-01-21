@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KalkulackaLogistikyClassic
+﻿namespace KalkulackaLogistikyClassic
 {
     internal class PocetniOperace
     {
@@ -34,6 +28,7 @@ namespace KalkulackaLogistikyClassic
             }
         }
 
+
         public class ObjUrovneOperace
         {
             private float SpotrebaINP { get; init; }
@@ -53,7 +48,7 @@ namespace KalkulackaLogistikyClassic
             private bool SQsystemChecked;
 
 
-            public ObjUrovneOperace(float spotrebaINP, float objednavaciDavkaINP, float tydnyRokINP, float zpINP, float pokrytiINP, 
+            public ObjUrovneOperace(float spotrebaINP, float objednavaciDavkaINP, float tydnyRokINP, float zpINP, float pokrytiINP,
                 float lhutaINP, decimal intervalKontroly)
             {
                 SpotrebaINP = spotrebaINP;
@@ -153,20 +148,21 @@ namespace KalkulackaLogistikyClassic
                 DavkaQd = davkaQd;
                 PocetPracovist = pocetPracovist;
                 PocetSerizovani = pocetSerizovani;
+                ZvolenaVarianta();
             }
             //  Veřejná metoda, která zjistí, jaká varianta předávání byla zvolena, zároveň přejde na metodu soukromou kde proběhne výpočet podle zvolené varianty
-            public void ZvolenaVarianta(int volba)
+            private void ZvolenaVarianta()
             {
-                if (volba == 0) //  0 = prvně zvolená variata a to "souběžné jednotlivé předávání, překryté seřizování"
+                switch (Varianta)
                 {
-                    SoubezneJednotlive();
-                    PocetPracovniku = PocetPracovist + PocetSerizovani;
-
-                }
-                else if (volba == 1) // 1 = druhá zvolená varianta a to "předávání v dopravních dávkách po X kusech, překryté seřizování"
-                {
-                    SoubeznevDavkach();
-                    PocetPracovniku = PocetPracovist + PocetSerizovani - DavkaQd;
+                    case 0:         //  0 = prvně zvolená variata a to "souběžné jednotlivé předávání, překryté seřizování"
+                        SoubezneJednotlive();
+                        PocetPracovniku = PocetPracovist + PocetSerizovani;
+                        break;
+                    case 1:         // 1 = druhá zvolená varianta a to "předávání v dopravních dávkách po X kusech, překryté seřizování"
+                        SoubeznevDavkach();
+                        PocetPracovniku = PocetPracovist + PocetSerizovani - DavkaQd;
+                        break;
                 }
             }
             //  Metoda pro variantu "souběžné jednotlivé předávání, překryté seřizování"
@@ -182,15 +178,12 @@ namespace KalkulackaLogistikyClassic
             //  Metoda pro výpis výsledku podle toho, jaká varianta byla zvolená
             public override string ToString()
             {
-                if (Varianta == 0)
+                return Varianta switch
                 {
-                    return $"T = {SoubeznaJednotlive} min\r\nPočet pracovníků: {PocetPracovniku}";
-                }
-                else if (Varianta == 1)
-                {
-                    return $"T = {SoubeznaDavkach} min\r\nPočet pracovníků: {PocetPracovniku}";
-                }
-                return "";
+                    0 => $"T = {SoubeznaJednotlive} min\r\nPočet pracovníků: {PocetPracovniku}",
+                    1 => $"T = {SoubeznaDavkach} min\r\nPočet pracovníků: {PocetPracovniku}",
+                    _ => "",
+                };
             }
         }
     }

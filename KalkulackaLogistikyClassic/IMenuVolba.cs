@@ -20,7 +20,6 @@ namespace KalkulackaLogistikyClassic
         public MenuVolba(Form form)
         {
             _form = form;
-
         }
         public void ResetujVelikost()
         {
